@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-file-alt"></i> Resume Analyzer</h1>
+    </header>
+    <main>
+        <!-- Upload Section -->
+        <section id="upload-section" class="card">
+            <h2><i class="fas fa-cloud-upload-alt"></i> Upload Your Resumes</h2>
+            
+            <!-- Required Skills Input -->
+            <div class="form-group">
+                <label for="skills-input"><strong>Required Skills</strong></label>
+                <textarea id="skills-input" placeholder="Enter required skills (comma-separated, e.g., HTML, CSS, JavaScript)" rows="3"></textarea>
+            </div>
+
+            <!-- Dual Resume Upload -->
+            <div class="resume-upload-grid">
+                <div class="upload-box">
+                    <label for="resume-upload-1"><strong><i class="fas fa-file-pdf"></i> Resume 1</strong></label>
+                    <input type="file" id="resume-upload-1" accept=".pdf,.docx,.txt">
+                    <p id="file-name-1" class="file-display"></p>
+                </div>
+                <div class="upload-box">
+                    <label for="resume-upload-2"><strong><i class="fas fa-file-pdf"></i> Resume 2</strong></label>
+                    <input type="file" id="resume-upload-2" accept=".pdf,.docx,.txt">
+                    <p id="file-name-2" class="file-display"></p>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="analyze-btn" disabled><i class="fas fa-chart-bar"></i> Analyze Resumes</button>
+                <button id="clear-history-btn" class="secondary-btn"><i class="fas fa-trash"></i> Clear History</button>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history-section" class="card hidden">
+            <h2><i class="fas fa-history"></i> Past Analyses</h2>
+            <div id="history-list" class="history-grid"></div>
+        </section>
+
+        <!-- Loading Section -->
+        <section id="loading-section" class="hidden">
+            <div class="spinner"></div>
+            <p>Analyzing your resumes...</p>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="hidden fade-in">
+            <!-- Comparison Table -->
+            <div id="comparison-card" class="card comparison-card hidden">
+                <h2><i class="fas fa-chart-bar"></i> Resume Comparison</h2>
+                <div class="comparison-table">
+                    <div class="comparison-row header">
+                        <div class="col">Resume</div>
+                        <div class="col">Match %</div>
+                        <div class="col">Matched Skills</div>
+                        <div class="col">Missing Skills</div>
+                    </div>
+                    <div id="comparison-resume-1" class="comparison-row"></div>
+                    <div id="comparison-resume-2" class="comparison-row"></div>
+                </div>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="results-grid">
+                <!-- Resume 1 Results -->
+                <div id="results-resume-1" class="results-container">
+                    <div class="card resume-card">
+                        <div class="resume-header">
+                            <h3><i class="fas fa-file"></i> Resume 1 Analysis</h3>
+                            <span id="badge-resume-1" class="badge hidden"></span>
+                        </div>
+                        
+                        <div class="percentage-container">
+                            <div class="percentage-circle" id="percentage-circle-1">
+                                <span class="match-percentage" id="match-percentage-1">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar-1">
+                                <div class="progress-fill" id="progress-fill-1"></div>
+                            </div>
+                            <span class="progress-label" id="progress-label-1">0%</span>
+                        </div>
+
+                        <h4><i class="fas fa-check-circle"></i> Matched Skills</h4>
+                        <div id="matched-skills-1" class="skills-container"></div>
+
+                        <h4><i class="fas fa-times-circle"></i> Missing Skills</h4>
+                        <div id="missing-skills-1" class="skills-container"></div>
+                    </div>
+                </div>
+
+                <!-- Resume 2 Results -->
+                <div id="results-resume-2" class="results-container hidden">
+                    <div class="card resume-card">
+                        <div class="resume-header">
+                            <h3><i class="fas fa-file"></i> Resume 2 Analysis</h3>
+                            <span id="badge-resume-2" class="badge hidden"></span>
+                        </div>
+                        
+                        <div class="percentage-container">
+                            <div class="percentage-circle" id="percentage-circle-2">
+                                <span class="match-percentage" id="match-percentage-2">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar-2">
+                                <div class="progress-fill" id="progress-fill-2"></div>
+                            </div>
+                            <span class="progress-label" id="progress-label-2">0%</span>
+                        </div>
+
+                        <h4><i class="fas fa-check-circle"></i> Matched Skills</h4>
+                        <div id="matched-skills-2" class="skills-container"></div>
+
+                        <h4><i class="fas fa-times-circle"></i> Missing Skills</h4>
+                        <div id="missing-skills-2" class="skills-container"></div>
+                    </div>
+                </div>
+
+                <!-- Chart Card -->
+                <div class="card skill-chart-card">
+                    <h3><i class="fas fa-chart-doughnut"></i> Skill Distribution</h3>
+                    <canvas id="skills-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <button id="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
